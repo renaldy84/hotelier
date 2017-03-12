@@ -1,0 +1,18 @@
+{
+  "name": "hotelier",
+  "description": "",
+  "main": "",
+  "license": "MIT",
+  "homepage": "",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "framework7": "^1.5.3"
+  }
+}
