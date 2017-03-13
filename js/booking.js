@@ -34,7 +34,17 @@ booking.closeBooking = function(id,callback){
         callback(rs);        
     });
 }
-
+booking.checkedin = function(id,callback){
+    var at = common.getAccessToken();
+    var apiUrl = config.apiUrl+api.checkedin+'/'+id;
+    
+    $$.get(apiUrl,{access_token:at},
+    function(data,status){
+        
+        var rs = JSON.parse(data);
+        callback(rs);        
+    });
+}
 booking.add = function(data,callback){
     var at = common.getAccessToken();
     var apiUrl = config.apiUrl+api.addBooking;

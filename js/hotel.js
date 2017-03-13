@@ -56,3 +56,24 @@ hotel.create = function(data,callback){
         callback(rs);       
     });
 }
+
+
+hotel.addPicture = function(hotel_id,
+                            picfile,
+                            extension,
+                            sequence){
+    if(typeof hotel_id === 'undefined') return false;
+    if(typeof picfile === 'undefined') return false;
+    if(typeof extension === 'undefined') return false;
+    if(typeof sequence === 'undefined') return false;
+    return new Promise(function(resolve,reject){
+        //do something here
+    });
+}
+hotel.deletePicture = function(hotel_id,pic_id){
+    if(typeof hotel_id === 'undefined') return false;
+    if(typeof pic_id === 'undefined') return false;
+    return new Promise(function(resolve,reject){
+        //do something here
+    });
+}

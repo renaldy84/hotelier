@@ -43,15 +43,19 @@ var api = {
     listBookings:'/hotelier/bookings',
     getBooking:'/hotelier/bookings',
     updateBooking:'/v1/booking/update',
-    availableBiddings:'/v1/biddings/available',
-    currentBiddings:'/v1/biddings/list',
-    viewBid:'/v1/biddings/view',
-    bid:'/v1/bid',
+    //BIDDINGS
+    availableBiddings:'/hotelier/biddings/available',
+    currentBiddings:'/hotelier/biddings/list',
+    viewBid:'/hotelier/biddings/view',
+    make_bid:'/hotelier/biddings/bid',
+    submitBid:'/hotelier/biddings/submit',
+    //-->
     updateAccount:'/hotelier/account/update',
     accountGetInfo:'/hotelier/account',
     customerInfo:'/v1/customer',
     addCustomer:'/api/customer/register',
     listCustomer:'/api/customer',
     addBooking:'/hotelier/bookings',
+    checkedin:'/hotelier/bookings/checkedin',
     closeBooking:'/hotelier/bookings/close',
 };

@@ -1,0 +1,227 @@
+<div class="pages navbar-fixed">
+  <!-- Page, data-page contains page name-->
+  <div data-page="new-promo" class="page no-toolbar new-promo">
+
+    <div class="navbar bg-white">
+      <div class="navbar-inner">
+        <div class="left"><a href="#" class="back"> <i class="icon icon-back"></i></a></div>
+        <div class="center sliding">New Promo</div>
+        <div class="right"><a href="save_promo.html" class="green">SAVE</a></div>
+      </div>
+    </div>
+
+    <!-- Scrollable page content-->
+    <div class="page-content">
+      <form id="promo-form" class="store-data">
+        <div class="list-block nude">
+        <ul>
+          <li>
+            <div class="item-content input-title">
+              <span>Promo name</span>
+            </div>
+          </li>
+          <li>
+            <div class="item-content">
+              <div class="item-inner">
+                <div class="item-input">
+                  <input name="name" type="text" value=""/>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li>
+            <div class="item-content input-title">
+              <span>Pick Hotel</span>
+            </div>
+          </li>
+          <li>
+            <div class="item-content">
+              <div class="item-inner">
+                <div class="item-input">
+                  <input name="hotel_id" type="text" placeholder="Hotel" readonly="readonly" id="hotel-picker"/>
+                </div>
+                <div class="item-after">
+                  <i class="f7-icons">chevron_down</i>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li>
+            <div class="item-content input-title">
+              <span>Description</span>
+            </div>
+          </li>
+          <li>
+            <div class="item-content">
+              <div class="item-inner">
+                <div class="item-input">
+                  <input name="description" type="text" value="Description"/>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li>
+            <div class="item-content input-title">
+              <span>Regular Price</span>
+            </div>
+          </li>
+          <li>
+            <div class="item-content">
+              <div class="item-inner">
+                <div class="item-input">
+                  <input name="regular_price" type="number" value="500.000"/>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li>
+            <div class="item-content input-title">
+              <span>Promo Price</span>
+            </div>
+          </li>
+          <li>
+            <div class="item-content">
+              <div class="item-inner">
+                <div class="item-input">
+                  <input  name="promo_price" type="number" value="400.000"/>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li>
+            <div class="item-content input-title">
+              <span>Quantity</span>
+            </div>
+          </li>
+          <li>
+            <div class="item-content">
+              <div class="item-inner">
+                <div class="item-input">
+                  <input name="qty" type="number" value="5"/>
+                </div>
+              </div>
+            </div>
+          </li>
+          <li>
+            <div class="item-content input-title">
+              <span>Time Duration<sub>(max : 12 hours)</sub></span>
+            </div>
+          </li>
+          <li>
+            <div class="item-content">
+              <div class="item-inner">
+                <div class="row">
+                  <div class="col-50">
+                    <div style="margin:0px 0px 10px 0px;">
+                      <sub>Start</sub>
+                    </div>
+                    <div class="item-input input-time">
+                      <input type="text" placeholder="06:00" readonly="readonly" id="start-picker" class="box"/>
+                      <div class="item-after">
+                        <input type="text" id="start-am" readonly="readonly" value="AM"/>&nbsp;<i class="f7-icons">chevron_down</i>
+                      </div>
+                      </div>
+                    </div>
+                    <div class="col-50">
+                      <div style="margin:0px 0px 10px 0px;">
+                        <sub>End</sub>
+                      </div>
+                      <div class="item-input input-time">
+                        <input name="expired_hour" type="text" placeholder="06:00" readonly="readonly" id="end-picker" class="box"/>
+                        <div class="item-after">
+                          <input type="text" id="end-am" readonly="readonly" value="AM"/>&nbsp;<i class="f7-icons">chevron_down</i>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </li>
+          </ul>
+          </div>
+
+          <div class="content-block-title">Facilities</div>
+          <div class="list-block">
+            <ul style="background:inherit">
+              <li>
+                <div class="item-content">
+                  <div class="item-inner">
+                    <div class="item-title">Pickup Service</div>
+                  </div>
+                  <div class="item-after">
+                    <div class="item-input">
+                      <label class="label-switch">
+                        <input name="pickup_service" value="1" type="checkbox"/>
+                        <div class="checkbox"></div>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div class="item-content">
+                  <div class="item-inner">
+                    <div class="item-title">Early Check-In</div>
+                  </div>
+                  <div class="item-after">
+                    <div class="item-input">
+                      <label class="label-switch">
+                        <input type="checkbox" name="early_checkin" value="1"/>
+                        <div class="checkbox"></div>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div class="item-content">
+                  <div class="item-inner">
+                    <div class="item-title">Late Check-out</div>
+                  </div>
+                  <div class="item-after">
+                    <div class="item-input">
+                      <label class="label-switch">
+                        <input name="late_checkout" value="1" type="checkbox"/>
+                        <div class="checkbox"></div>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div class="item-content">
+                  <div class="item-inner">
+                    <div class="item-title">WiFi</div>
+                  </div>
+                  <div class="item-after">
+                    <div class="item-input">
+                      <label class="label-switch">
+                        <input name="wifi" type="checkbox" value='1'/>
+                        <div class="checkbox"></div>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </li>
+              <li>
+                <div class="item-content">
+                  <div class="item-inner">
+                    <div class="item-title">Breakfast</div>
+                  </div>
+                  <div class="item-after">
+                    <div class="item-input">
+                      <label class="label-switch">
+                        <input name="breakfast" type="checkbox" value="1"/>
+                        <div class="checkbox"></div>
+                      </label>
+                    </div>
+                  </div>
+                </div>
+              </li>
+            </ul>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

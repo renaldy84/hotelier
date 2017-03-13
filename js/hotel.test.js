@@ -39,6 +39,7 @@ describe('hotel',function(){
                    assert.equal(rs.status,1);
                    assert.notEqual(rs.hotel.length,0);
                    assert.property(rs,'hotel');
+                   
                    done();
                }); 
             });

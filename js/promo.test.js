@@ -42,7 +42,10 @@ describe('promo',function(){
                 breakfast: '1',
                 wifi: '1',
             } ,function(rs){
-                promo_id = rs.id;
+                
+                assert.property(rs,'data');
+                assert.property(rs,'status');
+                assert.property(rs.data,'id');
                 assert.equal(rs.status,1);
                 done();
             });

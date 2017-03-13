@@ -16,6 +16,7 @@ account.getInfo = function(callback){
     $$.get(apiUrl,{access_token:at},
     function(data,status){       
         var rs = JSON.parse(data);
+        common.setLocal('account',rs.account);
         callback(rs);        
     });
 }

@@ -154,13 +154,31 @@ describe('booking',function(){
             });
         });
     });
+    it('can checked in the booking',function(done){
+         booking.list(function(response){
+            console.log(response);
+            var booking_id = response.data[response.data.length-1].id;
+            booking.checkedin(booking_id,function(response){
+                assert.equal(response.status,1);
+                booking.get(booking_id,function(response){
+                    assert.equal(response.data.booking_status,1);
+                    done();
+                });
+                
+            });
+        });
+    });
     it('can close the booking',function(done){
          booking.list(function(response){
             console.log(response);
             var booking_id = response.data[response.data.length-1].id;
             booking.closeBooking(booking_id,function(response){
                 assert.equal(response.status,1);
-                done();
+                booking.get(booking_id,function(response){
+                    assert.equal(response.data.booking_status,2);
+                    done();
+                });
+                
             });
         });
     });

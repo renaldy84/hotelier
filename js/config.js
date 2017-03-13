@@ -1,3 +1,3 @@
 var config = {
-    apiUrl:'http://localhost:8000'
+    apiUrl:'http://192.168.1.100:8000'
 };
