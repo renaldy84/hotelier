@@ -1,0 +1,1 @@
+var forgot_password = {};

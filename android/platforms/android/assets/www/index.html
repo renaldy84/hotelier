@@ -1,0 +1,796 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>My App</title>
+    <!-- Path to Framework7 Library CSS-->
+    <link rel="stylesheet" href="css/framework7.ios.min.css">
+    <link rel="stylesheet" href="css/framework7.ios.colors.min.css">
+    <link rel="stylesheet" href="css/framework7-icons.css">
+
+    <!-- Path to your custom app styles-->
+    <link rel="stylesheet" href="css/my-app.css">
+
+  </head>
+  <body>
+    <!-- Status bar overlay for fullscreen mode-->
+    <div class="statusbar-overlay"></div>
+    <!-- Panels overlay-->
+    <div class="panel-overlay"></div>
+    <!-- Left panel with reveal effect-->
+    <div class="panel panel-left panel-reveal">
+      <div class="list-block nude">
+        <ul>
+          <li id="checkin">
+            <a href="checkin.html" class="close-panel">
+              <div class="item-content">
+                <div class="item-media"></div>
+                <div class="item-inner">
+                  <div class="item-title">Check In</div>
+                </div>
+              </div>
+            </a>
+          </li>
+          <li id="hotel">
+            <a href="hotel.html" class="close-panel">
+              <div class="item-content">
+                <div class="item-media">
+                </div>
+                <div class="item-inner">
+                  <div class="item-title">My Hotels</div>
+                </div>
+              </div>
+            </a>
+          </li>
+          <li id="account">
+            <a href="account.html" class="close-panel">
+              <div class="item-content">
+                <div class="item-media">
+                </div>
+                <div class="item-inner">
+                  <div class="item-title">My Account</div>
+                </div>
+              </div>
+            </a>
+          </li>
+        </ul>
+      </div>
+      <div id="logout" class="list-block nude">
+        <ul>
+          <li>
+            <a href="login.html" class="close-panel">
+              <div class="item-content">
+                <div class="item-media">
+                </div>
+                <div class="item-inner">
+                  <div class="item-title">Logout</div>
+                </div>
+              </div>
+            </a>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+
+    <!-- Views-->
+    <div class="views">
+      <!-- Your main view, should have "view-main" class-->
+      <div class="view view-main">
+        <!-- Pages, because we need fixed-through navbar and toolbar, it has additional appropriate classes-->
+        <div class="pages navbar-fixed">
+          <!-- Page, data-page contains page name-->
+          <div data-page="index" class="page no-toolbar">
+          <!-- EMPTy-PAGE -->
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Path to Cordova Library JS-->
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="cordova_plugins.js"></script>
+    <script type="text/javascript" src="js/index.js"></script>
+    <!-- Path to Framework7 Library JS-->
+    <script type="text/javascript" src="js/framework7.min.js"></script>
+    
+    <!--hotelier app libs-->
+    <script src="js/config.js"></script>
+    <script src="js/common.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/login.js"></script>
+    <script src="js/register.js"></script>
+    <script src="js/promo.js"></script>
+    <script src="js/hotel.js"></script>
+    <script src="js/account.js"></script>
+    <script src="js/customer.js"></script>
+    <script src="js/booking.js"></script>
+    <script src="js/checkin.js"></script>
+    <script src="js/bidding.js"></script>
+
+
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCRO9gFXPuzZAlNDxo01LyDOZmkE5PzCzk">
+    </script>
+    <!-- templates -->
+    <script id="tpl-promo-item" type="text/template7">
+     {{#each promo}}
+      <li class="swipeout">
+        <div class="card swipeout-content">
+          <div class="card-content">
+            <a href="#">
+              <div class="card-content-inner">
+                <div class="row no-gutter">
+                  <div class="col-66">
+                    <p class="title">{{name}}</p>
+                    <p class="subtitle">{{description}}</p>
+                  </div>
+                  <div class="col-33">
+                    <p class="price">Rp {{promo_price}},-</p>
+                    <p class="date">{{expired_time}}</p>
+                  </div>
+                </div>
+              </div>
+            </a>
+          </div>
+        </div>
+        <div class="swipeout-actions-right">
+          <a href="edit_promo.html?id={{id}}">
+            <img src="img/icons/pencil-white.png"/>
+          </a>
+          <a href="delete_promo.html?id={{id}}">
+            <img src="img/icons/trash-white.png"/>
+          </a>
+        </div>
+      </li>
+      {{/each}}
+    </script>
+    <script id="tpl-hotel-item" type="text/template7">
+       {{#each hotel}}
+      <li>
+            <a href="edit_hotel.html?id={{id}}">
+              <div class="card">
+                <div class="card-content">
+                  <div class="card-content-inner">
+                    <div class="row no-gutter">
+                      <a></a> <!-- Sengaja Dikososngkan -->
+                      <div class="col-66">
+                        <p class="title">{{name}}</p>
+                        <i class="address">{{address}}</i>
+                      </div>
+                      <div class="col-33">
+                        <a href="edit_hotel.html?id={{id}}">
+                          <div class="dot"></div>
+                        </a>
+                        <div class="stars">
+                          {{#each star}}
+                          <img class="star yellow"/>
+                          {{/each}}
+                        </div>
+                      </div>
+                    </div>
+                    <p class="description">
+                      {{description}}
+                    </p>
+                  </div>
+                </div>
+              </div>
+            </a>
+        </li>
+        {{/each}}
+    </script>
+    <script id="tpl-account" type="text/template7">
+      <ul>
+            <li>
+              <div class="item-content input-title">
+                <span>Name</span>
+              </div>
+            </li>
+            <li>
+              <div class="item-content">
+                <div class="item-inner">
+                  <div class="item-input">
+                    <input name="name" type="text" value="{{name}}"/>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="item-content input-title">
+                <span>Address</span>
+              </div>
+            </li>
+            <li>
+              <div class="item-content">
+                <div class="item-inner">
+                  <div class="item-input">
+                    <textarea name="address">{{address}}</textarea>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="item-content input-title">
+                <span>Phone</span>
+              </div>
+            </li>
+            <li>
+              <div class="item-content">
+                <div class="item-inner">
+                  <div class="item-input">
+                    <input name="phone" type="tel" value="{{phone}}"/>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="item-content input-title">
+                <span>Email</span>
+              </div>
+            </li>
+            <li>
+              <div class="item-content">
+                <div class="item-inner">
+                  <div class="item-input">
+                    <input name="email" type="email" value="{{email}}"/>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="item-content input-title">
+                <span>Password</span>
+              </div>
+            </li>
+            <li>
+              <div class="item-content">
+                <div class="item-inner">
+                  <div class="item-input">
+                    <input type="password" name="password" value=""/>
+                    <i class="f7-icons show-password">eye</i>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="item-content input-title">
+                <span>Confirm Password</span>
+              </div>
+            </li>
+            <li>
+              <div class="item-content">
+                <div class="item-inner">
+                  <div class="item-input">
+                    <input type="password" name="confirm_password" value=""/>
+                    <i class="f7-icons show-password">eye</i>
+                  </div>
+                </div>
+              </div>
+            </li>
+          </ul>
+    </script>
+    <!--template add hotel -->
+
+    <script id="tpl-add-hotel" type="text/template7">
+      <ul>
+            <li>
+              <div class="item-content input-title">
+                <span>Hotel Name</span>
+              </div>
+            </li>
+            <li>
+              <div class="item-content">
+                <div class="item-inner">
+                  <div class="item-input">
+                    <input name="name" type="text" value=""/>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="item-content input-title">
+                <span>Address</span>
+              </div>
+            </li>
+            <li>
+              <div class="item-content">
+                <div class="item-inner">
+                  <div class="item-input">
+                    <textarea name="address"></textarea>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="item-content">
+                <div class="row no-gutter">
+                  <div class="col-50">
+                    <a href="#" class="button set-hotel-location">Set Hotel Location</a>
+                  </div>
+                  <div class="col-50 coordinate">
+                    <div class="lat">
+                      <p></p>
+                      <input type="hidden" name="lat"/>
+                    </div>
+                    <div class="lng">
+                      <p></p>
+                      <input type="hidden" name="lon" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div id="map"></div>
+            </li>
+            <li>
+              <div class="item-content input-title">
+                <span>Phone</span>
+              </div>
+            </li>
+            <li>
+              <div class="item-content">
+                <div class="item-inner">
+                  <div class="item-input">
+                    <input name="phone" type="tel" value=""/>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="item-content input-title">
+                <span>Email</span>
+              </div>
+            </li>
+            <li>
+              <div class="item-content">
+                <div class="item-inner">
+                  <div class="item-input">
+                    <input name="email" type="email" value=""/>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="item-content input-title">
+                <span>Description</span>
+              </div>
+            </li>
+            <li>
+              <div class="item-content">
+                <div class="item-inner">
+                  <div class="item-input">
+                    <input name="description" type="text" value=""/>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="item-content input-title">
+                <span>Stars</span>
+              </div>
+            </li>
+            <li>
+              <div class="item-content">
+                <div class="item-inner">
+                  <div class="item-input" id="star-input">
+                    <input type="hidden" name="stars"/>
+                    <div class="stars">
+                      <img class="star yellow"/>
+                      <img class="star yellow"/>
+                      <img class="star yellow"/>
+                      <img class="star gray"/>
+                      <img class="star gray"/>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <!--
+            <li>
+              <div class="item-content">
+                <div class="item-inner">
+                  <div class="row">
+                    <div class="col-25 img-item">
+                      <img class="img-hotel" src="img/h1.jpg"/>
+                      <div class="img-delete">
+                        <img src="img/icons/trash-white.png"></img>
+                      </div>
+                    </div>
+                    <div class="col-25 img-item">
+                      <img class="img-hotel" src="img/h1.jpg"/>
+                      <div class="img-delete">
+                        <img src="img/icons/trash-white.png"></img>
+                      </div>
+                    </div>
+                    <div class="col-25 img-item">
+                      <img class="img-hotel" src="img/h1.jpg"/>
+                      <div class="img-delete">
+                        <img src="img/icons/trash-white.png"></img>
+                      </div>
+                    </div>
+                    <div class="col-25 img-item">
+                      <img class="img-hotel" src="img/h1.jpg"/>
+                      <div class="img-delete">
+                        <img src="img/icons/trash-white.png"></img>
+                      </div>
+                    </div>
+                    <div class="col-25 img-item">
+                      <img class="img-hotel" src="img/h1.jpg"/>
+                      <div class="img-delete">
+                        <img src="img/icons/trash-white.png"></img>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </li>-->
+          </ul>
+    </script>
+    <!--/template add hotel-->
+    <script id="tpl-edit-hotel" type="text/template7">
+      <ul>
+            <li>
+              <div class="item-content input-title">
+                <span>Hotel Name</span>
+              </div>
+            </li>
+            <li>
+              <div class="item-content">
+                <div class="item-inner">
+                  <div class="item-input">
+                    <input name="name" type="text" value="{{name}}"/>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="item-content input-title">
+                <span>Address</span>
+              </div>
+            </li>
+            <li>
+              <div class="item-content">
+                <div class="item-inner">
+                  <div class="item-input">
+                    <textarea name="address"></textarea>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="item-content">
+                <div class="row no-gutter">
+                  <div class="col-50">
+                    <a href="#" class="button set-hotel-location">Set Hotel Location</a>
+                  </div>
+                  <div class="col-50 coordinate">
+                    <div class="lat">
+                      <p></p>
+                      <input type="hidden" name="lat"/>
+                    </div>
+                    <div class="lng">
+                      <p></p>
+                      <input type="hidden" name="lng" />
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div id="map"></div>
+            </li>
+            <li>
+              <div class="item-content input-title">
+                <span>Phone</span>
+              </div>
+            </li>
+            <li>
+              <div class="item-content">
+                <div class="item-inner">
+                  <div class="item-input">
+                    <input name="phone" type="tel" value="{{phone}}"/>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="item-content input-title">
+                <span>Email</span>
+              </div>
+            </li>
+            <li>
+              <div class="item-content">
+                <div class="item-inner">
+                  <div class="item-input">
+                    <input name="email" type="email" value="{{email}}"/>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="item-content input-title">
+                <span>Description</span>
+              </div>
+            </li>
+            <li>
+              <div class="item-content">
+                <div class="item-inner">
+                  <div class="item-input">
+                    <input name="description" type="text" value="{{description}}"/>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="item-content input-title">
+                <span>Stars</span>
+              </div>
+            </li>
+            <li>
+              <div class="item-content">
+                <div class="item-inner">
+                  <div class="item-input" id="star-input">
+                    <input type="hidden" name="star"/>
+                    <div class="stars">
+                      <img class="star yellow"/>
+                      <img class="star yellow"/>
+                      <img class="star yellow"/>
+                      <img class="star gray"/>
+                      <img class="star gray"/>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </li>
+            <li>
+              <div class="item-content">
+                <div class="item-inner">
+                  <a href="#" class="button add-image">
+                    <img src="img/icons/gallery-blue.png"/>
+                    <span>Add Picture</span>
+                  </a>
+                </div>
+              </div>
+            </li>
+            <!--
+            <li>
+              <div class="item-content">
+                <div class="item-inner">
+                  <div class="row">
+                    <div class="col-25 img-item">
+                      <img class="img-hotel" src="img/h1.jpg"/>
+                      <div class="img-delete">
+                        <img src="img/icons/trash-white.png"></img>
+                      </div>
+                    </div>
+                    <div class="col-25 img-item">
+                      <img class="img-hotel" src="img/h1.jpg"/>
+                      <div class="img-delete">
+                        <img src="img/icons/trash-white.png"></img>
+                      </div>
+                    </div>
+                    <div class="col-25 img-item">
+                      <img class="img-hotel" src="img/h1.jpg"/>
+                      <div class="img-delete">
+                        <img src="img/icons/trash-white.png"></img>
+                      </div>
+                    </div>
+                    <div class="col-25 img-item">
+                      <img class="img-hotel" src="img/h1.jpg"/>
+                      <div class="img-delete">
+                        <img src="img/icons/trash-white.png"></img>
+                      </div>
+                    </div>
+                    <div class="col-25 img-item">
+                      <img class="img-hotel" src="img/h1.jpg"/>
+                      <div class="img-delete">
+                        <img src="img/icons/trash-white.png"></img>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </li>-->
+          </ul>
+    </script>
+    <script id="tpl-confirm-list" type="text/template7">
+    {{#each bookings}}
+       <li>
+            <a href="checkin.html?booking_id={{id}}">
+              <div class="card">
+                <div class="card-content">
+                  <div class="item-content">
+                    <div class="item-media">
+                      <img src="img/pp.jpg" class="circle" class="circle"/>
+                    </div>
+                    <div class="item-inner">
+                      <div class="item-title-row">
+                        <p class="title">{{customer_name}}</p>
+                        <p class="subtitle">{{booking_no}}</p>
+                        <div class="datetime">
+                          <i class="date">{{booking_date}}</i>
+                          <hr>
+                          <i class="time">{{booking_time}}</i>
+                        </div>
+                      </div>
+                      <div class="item-subtitle">
+                        {{#if pending}}
+
+                        <div class="status">
+                          <img src="img/icons/loading.png"/>
+                          <span>Waiting</span>
+                        </div>
+                        {{/if}}
+                         {{#if checkedIn}}
+
+                        <div class="status">
+                          <img src="img/icons/loading.png"/>
+                          <span>Checked In</span>
+                        </div>
+                        {{/if}}
+                         {{#if checkedOut}}
+
+                        <div class="status">
+                          <img src="img/icons/loading.png"/>
+                          <span>Checked Out</span>
+                        </div>
+                        {{/if}}
+                       
+                        <div class="price">
+                          <p>Rp. {{final_price}}<p>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </a>
+          </li>
+          {{/each}}
+    </script>
+    <script id="tpl-booking-info" type="text/template7">
+      <center>
+        <p class="title">{{customer.name}}</p>
+        <p class="subtitle">{{promo.name}}</p>
+        <p class="subtitle">Rp. {{booking.final_price}},-</p>
+      </center>
+
+      <div class="card">
+        <div class="card-content">
+          <div class="card-content-inner">
+            <div class="list-block nude">
+              <ul>
+                <li>
+                  <div class="item-content">
+                    <div class="item-inner">
+                      <div class="item-input">
+                        <p class="black">Booking No</p>
+                      </div>
+                      <div class="item-after">
+                        <p class="blue">{{booking.booking_no}}</p>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div class="item-content">
+                    <div class="item-inner">
+                      <div class="item-input">
+                        <p class="black">Date</p>
+                      </div>
+                      <div class="item-after">
+                        <p>{{booking.booking_date}}</p>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+                <li>
+                  <div class="item-content">
+                    <div class="item-inner">
+                      <div class="item-input">
+                        <p class="black">Time</p>
+                      </div>
+                      <div class="item-after">
+                        <p>{{booking.booking_time}}</p>
+                      </div>
+                    </div>
+                  </div>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card id-card">
+        <!--<img src="img/id-card.jpg"/>-->
+        ID No. {{customer.ktp}}
+      </div>
+      <a href="confirm-loading.html" class="button button-round">Check In</a>
+    </script>
+
+    <script id="tpl-bid-list" type="text/template7">
+    {{#if has_bids}}
+     {{#each bids}}
+      <li>
+          <a href="make_bid.html?id={{id}}">
+            <div class="card">
+              <div class="card-content">
+                <div class="item-content">
+                  <div class="item-media">
+                    <img src="img/pp.jpg" class="circle"/>
+                  </div>
+                  <div class="item-inner">
+                    <div class="item-title-row">
+                      <p class="title blue">{{customer_name}}</p>
+                      <div class="info">
+                        <div>
+                          <img src="img/icons/location-gray.png">
+                          <span>{{distance}} KM</span>
+                        </div>
+                        <div>
+                          <img src="img/icons/dollar-gray.png">
+                          <span>Rp {{budget}}</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="item-subtitle">
+                      <button class="button">Bid</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </a>
+        </li>
+      {{/each}}
+      {{else}}
+      <p class="no-data">currently no one is bidding around</p>
+      {{/if}}
+    </script>
+    <script id="tpl-currentbid-list" type="text/template7">
+    {{#if has_bids}}
+     {{#each bids}}
+      <li>
+          <a href="#">
+            <div class="card">
+              <div class="card-content">
+                <div class="item-content">
+                  <div class="item-media">
+                    <img src="img/pp.jpg" class="circle"/>
+                  </div>
+                  <div class="item-inner">
+                    <div class="item-title-row">
+                      <p class="title blue">{{bidding.customer_name}}</p>
+                      <div class="info">
+                        <div>
+                          <img src="img/icons/location-gray.png">
+                          <span>{{bidding.distance}} KM</span>
+                        </div>
+                        <div>
+                          <img src="img/icons/dollar-gray.png">
+                          <span>Rp {{bidding.budget}}</span>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="item-subtitle">
+                      <button class="button">Change</button>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </a>
+        </li>
+      {{/each}}
+      {{else}}
+      <p class="no-data">currently no one is bidding around</p>
+      {{/if}}
+    </script>
+    <!-- Path to your app js-->
+    <script type="text/javascript" src="js/my-app.js"></script>    
+  </body>
+</html>
