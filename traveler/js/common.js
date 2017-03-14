@@ -26,18 +26,21 @@ common.getLocation = function(){
     if(typeof navigator.geolocation === 'undefined'){
         //return false;
         //STUB 
+
+        console.log('use stub');
         return new Promise(function(resolve,reject){
-            self.location = {lat:'-6.2000595', lon:'106.8827428'};
             resolve({lat:'-6.2000595',lon:'106.8827428'});
         });
         
         //-->
     }else{
+        console.log('use geolocation');
         return new Promise(function(resolve,reject){
             navigator.geolocation.getCurrentPosition(function(position){
-                self.location = {lat:position.coords.latitude, lon:position.coords.longitude};
+                console.log('found',position);
                 resolve({lat:position.coords.latitude, lon:position.coords.longitude});
             }, function(err){
+                console.log('error',err.message);
                 reject(err);
             });
         });
@@ -45,6 +48,7 @@ common.getLocation = function(){
     
 }
 common.watchLocation = function(){
+    console.log('watchLocation');
     if(typeof navigator.geolocation === 'undefined') return false;
     var self = this;
     return new Promise(function(resolve,reject){
@@ -52,8 +56,13 @@ common.watchLocation = function(){
             self.location = {lat:position.coords.latitude, lon:position.coords.longitude};
             resolve(self.location);
         }, function(err){
-            reject(err);
-        }, {maximumAge: 3000, timeout: 30000, enableHighAccuracy: true });
+            try{
+                reject(err);
+            }catch(e){
+                reject(err);
+            }
+            
+        }, {maximumAge: 3000, timeout: 10000, enableHighAccuracy: true });
     });
 }
 common.stopWatchingLocation = function(){

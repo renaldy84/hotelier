@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black">
+    <title>Get hotel app</title>
+    <link rel="stylesheet" href="css/framework7.ios.min.css">
+    <link rel="stylesheet" href="css/framework7.ios.colors.min.css">
+    <link rel="stylesheet" href="css/framework7-icons.css">
+    <link rel="stylesheet" href="css/kitchen-sink.css">
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,600,600i,700,700i,800,800i" rel="stylesheet">
+    <link rel="stylesheet" href="css/rangeslider.css">
+    <link rel="stylesheet" href="css/gethotel.css">
+    <link rel="icon" href="img/icon.png">
+    <link rel="apple-touch-icon" href="img/icon.png">
+  </head>
+  <body>
+    <div class="statusbar-overlay"></div>
+    <div class="panel-overlay"></div>
+    <div id="menupanel" class="panel panel-left panel-reveal layout-light">
+      <div class="list-block">
+        <ul>
+          <li>
+            <a href="findhotel.html" class="item-link close-panel"> 
+              <div class="item-content">
+                <div class="item-media"><i class="icon icon-menu icon-hotel"></i></div>
+                <div class="item-inner"> 
+                  <div class="item-title">Find Hotel</div>
+                </div>
+              </div>
+            </a>
+          </li>
+          <li><a href="mybooking.html" class="item-link close-panel"> 
+              <div class="item-content">
+                <div class="item-media"><i class="icon icon-menu icon-booking"></i></div>
+                <div class="item-inner"> 
+                  <div class="item-title">My Bookings</div>
+                </div>
+              </div></a></li>
+          <li><a href="mybidding.html" class="item-link close-panel"> 
+              <div class="item-content">
+                <div class="item-media"><i class="icon icon-menu icon-bid"></i></div>
+                <div class="item-inner"> 
+                  <div class="item-title">My Bid</div>
+                </div>
+              </div></a></li>
+          <li><a href="myreview.html" class="item-link close-panel"> 
+              <div class="item-content">
+                <div class="item-media"><i class="icon icon-menu icon-review"></i></div>
+                <div class="item-inner"> 
+                  <div class="item-title">My Review</div>
+                </div>
+              </div></a></li>
+          <li><a href="signin.html" class="item-link close-panel"> 
+              <div class="item-content">
+                <div class="item-media"><i class="icon icon-menu icon-profile"></i></div>
+                <div class="item-inner"> 
+                  <div class="item-title">My Profile</div>
+                </div>
+              </div></a></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="views">
+      <div class="view view-main">
+        <div class="navbar">
+          <div class="navbar-inner">
+            <div class="left"><a href="#" class="open-panel link icon-only"><i class="icon icon-bars"></i></a></div>
+            <div class="center sliding">index</div>
+            <div class="right"></div>
+          </div>
+        </div>
+
+        <!-- Splash screen -->
+        <div class="pages splashscreen navbar-through toolbar-through">
+          <div data-page="splashscreen" class="page">
+            <div class="page-content">
+              <a href="findhotel.html" id="splash-screen">
+                <div class="splash-upper">
+                  <h1>Last minute <span>Hotel booking</span></h1>
+                  <img  onclick="clicked('eek')" class="get-hotel-icon" src="images/gethotel.png">
+                </div>
+                <div class="splash-bottom">
+                  <p class="description"><span>Best</span> price, <span>Best</span> location</p>
+                </div>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    
+    <script async defer
+    src="https://maps.googleapis.com/maps/api/js?key=AIzaSyCRO9gFXPuzZAlNDxo01LyDOZmkE5PzCzk">
+    </script>
+    <!--<script src="cordova.js"></script>
+    <script src="cordova_plugins.js"></script>-->
+    <script type="text/javascript" src="js/framework7.js"></script>
+    <script type="text/javascript" src="js/gethotel.js"></script>
+     <!--templates -->
+    <script id="tpl-top-hotel" type="text/template7">
+     {{#each tophotels}}
+     
+      <article class="hotel col-50">
+          <div class="thumbnail">
+            <a href="hoteldetail.html?id={{id}}">
+              <img src="images/hotel-1.jpg">
+            </a>
+            <a class="price" href="#"><small>Rp. {{regular_price}}</small> RP. {{promo_price}}</a>
+          </div>
+          <div class="detail">
+            <h3 class="posttitle">{{name}}</h3>
+            <div class="meta row">
+              <div class="col-50"><i class="icon icon-distance"></i>{{js "this.distance != null ? this.distance : 0  "}}km</div>
+              <div class="col-50 alignright">
+                
+                <span class="rating"><span style="width:  {{js "this.stars * 20"}}%"></span></span>
+              </div>
+            </div>
+          </div>
+        </article>
+      {{/each}}
+    </script>
+    <script id="tpl-other-hotel" type="text/template7">
+    {{#each hotels}}
+      <article class="hotel col-100">
+            <div class="thumbnail">
+              <a href="hoteldetail.html?id={{id}}">
+                <img src="images/hotel-2.jpg">
+              </a>
+            </div>
+            <div class="detail">
+              <h3 class="posttitle">{{name}}</h3>
+              <div class="meta row">
+                <div class="col-50"><i class="icon icon-distance"></i>{{js "this.distance != null ? this.distance : 0  "}}km</div>
+                <div class="col-50 alignright">
+                  <span class="rating"><span style="width: {{js "this.stars * 20"}}%"></span></span>
+                </div>
+              </div>
+              <a class="price" href="#"><small>Rp. {{regular_price}}</small> Rp. {{promo_price}}</a>
+            </div>
+          </article>
+    {{/each}}
+    </script>
+    <script id="tpl-hotel-detail" type="text/template7">
+     <div class="content-block cover-block">
+              <div data-pagination=".swiper-pagination" data-pagination-hide="true" class="swiper-container swiper-init ks-demo-slider">
+                <div class="swiper-pagination"></div>
+                <div class="swiper-wrapper">
+                  <div class="swiper-slide"><img src="images/hotel-1.jpg"></div>
+                  <div class="swiper-slide"><img src="images/hotel-2.jpg"></div>
+                  <div class="swiper-slide"><img src="images/hotel-3.jpg"></div>
+                </div>
+              </div>
+              <a href="bookhotel.html?id={{promo.id}}" class="btn main-btn book-btn">Book now</a>
+            </div>
+
+            <div class="content-block">
+              <div class="hotel-rating aligncenter">
+                <span class="rating big-rating">
+                  
+                  <span style="width: {{js "parseInt(this.stars) * 20"}}%"></span>
+                </span>
+              </div>
+              <div class="hotel-services">
+                <ul class="row">
+                  {{#if promo.wifi}}
+                  <li class="col-33">
+                    <div class="icon">
+                      <img src="images/service-1.png">
+                    </div>
+                    <span>Wifi</span>
+                  </li>
+                  {{/if}}
+                  {{#if promo.breakfast}}
+                  <li class="col-33">
+                    <div class="icon">
+                      <img src="images/service-2.png">
+                    </div>
+                    <span>Breakfast</span>
+                  </li>
+                  {{/if}}
+                  {{#if promo.pickup_service}}
+                  <li class="col-33">
+                    <div class="icon">
+                      <img src="images/service-3.png">
+                    </div>
+                    <span>Pickup Service</span>
+                  </li>
+                  {{/if}}
+                  {{#if promo.early_checkin}}
+                  <li class="col-33">
+                    <div class="icon">
+                      <img src="images/service-5.png">
+                    </div>
+                    <span>Early check-in</span>
+                  </li>
+                  {{/if}}
+                  {{#if promo.late_checkout}}
+                  <li class="col-33">
+                    <div class="icon">
+                      <img src="images/service-4.png">
+                    </div>
+                    <span>Late Checkout</span>
+                  </li>
+                  {{/if}}
+                  <li class="col-33"></li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="content-block cover-block">
+              <div id="hotelmap" class="map">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m10!1m8!1m3!1d15812.81475152297!2d110.40833415000003!3d-7.7682124999999935!3m2!1i1024!2i768!4f13.1!5e0!3m2!1sen!2sid!4v1488443263967" width="400" height="250" frameborder="0" style="border:0" allowfullscreen></iframe>
+              </div>
+            </div>
+
+            <div class="content-block">
+              <h4 class="widget-title">Description</h4>
+              <p>{{hotelData.description}}</p>
+              <h5>Detil Promo</h5>
+              <p>{{promo.description}}</p>
+            </div>
+
+            <div class="content-block">              
+              <h4 class="widget-title">Review</h4>
+              <div class="review-widgets row">
+                <div class="col-50 review-score">
+                  <img src="images/review-good.png" class="review-account">
+                  <div class="reviewscore">
+                    <span>Review score</span>
+                    <p class="score">7.8 / 10</p>
+                    <span><small>from 200 guests</small></span>
+                  </div>
+                </div>
+                <div class="col-50 review-point">
+                  <p><span>Comfort</span> <em>7.8</em></p>
+                  <p><span>Services</span> <em>7.8</em></p>
+                  <p><span>Food</span> <em>7.8</em></p>
+                  <p><span>Cleanliness</span> <em>7.8</em></p>
+                </div>
+              </div>
+            </div>
+
+            <div class="content-block cover-block">
+              <a class="btn main-btn bottom-btn book-btn" href="bookhotel.html?id={{promo.id}}">Book hotel</a>
+            </div>
+    </script>
+
+    <script id="tpl-booking-detail" type="text/template7">
+      <li>
+          <div class="item-content">
+            <div class="item-inner"> 
+              <div class="item-title label">Hotel name</div>
+              <div class="item-input">
+                {{hotelData.name}}
+                
+              </div>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="item-content">
+            <div class="item-inner"> 
+              <div class="item-title label">Promo</div>
+              <div class="item-input">
+                {{promo.name}}
+              </div>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="item-content">
+            <div class="item-inner"> 
+              <div class="item-title label">Price</div>
+              <div class="item-input">
+                Rp. {{promo.promo_price}}
+              </div>
+            </div>
+          </div>
+        </li>
+        <!--
+        <li>
+          <div class="item-content">
+            <div class="item-inner"> 
+              <div class="item-title label">Rooms</div>
+              <div class="item-input">
+                <input type="number" placeholder="-" value="1"/>
+              </div>
+            </div>
+          </div>
+        </li>
+        -->
+        <li>
+          <div class="item-content">
+            <div class="item-inner"> 
+              <div class="item-title label">Durations</div>
+              <div class="item-input">
+                <!--<input type="number" placeholder="-" value="1 night"/>-->
+                1 Night
+              </div>
+            </div>
+          </div>
+        </li>
+        <li>
+          <div class="item-content book-total">
+            <div class="item-inner"> 
+              <div class="item-title label">Total</div>
+              <div class="item-input">
+                Rp. {{promo.promo_price}}
+              </div>
+            </div>
+          </div>
+        </li>
+    </script>
+
+    <script id="tpl-booking-info" type="text/template7">
+      <div class="content-block">
+              <div class="receipt">
+                <p>Please show this receipt when you are checked in at the hotel<p>
+                <div class="receipt-bar">
+                  <canvas id="qr"></canvas>
+                </div>
+                <div class="receipt-detail">
+                  <span>Booking no:</span>
+                  <h4>{{bookingData.booking_no}}</h4>
+                  <p class="booking-info">{{bookingData.booking_datetime}}</p>
+                </div>
+              </div>
+            </div>
+
+            <div class="content-block cover-block">
+              
+                <ul>
+                  <li>
+                    <div class="item-content">
+                      <div class="item-inner"> 
+                        <div class="item-title label">Hotel name</div>
+                        <div class="item-input">
+                          {{hotelData.name}}
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="item-content">
+                      <div class="item-inner"> 
+                        <div class="item-title label">Address</div>
+                        <div class="item-input">
+                          {{hotelData.address}}
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="item-content">
+                      <div class="item-inner"> 
+                        <div class="item-title label">Promo</div>
+                        <div class="item-input">
+                          {{promoData.name}}
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                  
+                  <li>
+                    <div class="item-content">
+                      <div class="item-inner"> 
+                        <div class="item-title label">Durations</div>
+                        <div class="item-input">
+                          1 Night
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+
+                <div id="hotelmap" class="map">
+                  
+                </div>
+
+                <div class="fixbottom">
+                  <a href="mybooking.html" class="btn main-btn pay-btn">Ok</a>
+                </div>
+                
+              </form>
+            </div>
+    </script>
+
+    <script id="tpl-booking-list" type="text/template7">
+    {{#each bookings}}
+      <article class="hentry booking">
+              <a href="bookingdetail.html?id={{id}}">
+                <h3>{{hotel_name}} <span>({{booking_no}})</span></h3>
+                <div class="entrymeta">
+                  <span><i class="icon icon-date"></i> {{booking_date}}</span>
+                  <span><i class="icon icon-clock"></i> {{booking_time}}</span>
+                  <span><i class="icon icon-price"></i> Rp. {{final_price}}</span>
+                </div>
+              </a>
+            </article>
+      {{/each}}
+    </script>
+    <script id="tpl-my-biddings" type="text/template7">
+    {{#each bids}}
+      <article class="hotel hotel-review col-100">
+          <div class="thumbnail">
+            <a href="bidselect.html?id={{id}}">
+              <img src="images/hotel-1.jpg">
+            </a>
+          </div>
+          <div class="detail">
+            <h3 class="posttitle">{{hotel_name}}</h3>
+            <div class="meta row">
+              <div class="col-30"><i class="icon icon-distance"></i>{{distance}}km</div>
+              <div class="col-70">
+                <span class="rating"><span style="width: {{js "this.hotel_star * 20"}}%"></span></span>
+              </div>
+            </div>
+          </div>
+            <div class="review-box" href="bidselect.html?id={{id}}"
+              <span class="bid-price">Rp. {{price}}</span>
+            </div>
+        </article>
+        {{/each}}
+    </script>
+    <!--/templates -->
+    <script src="bower_components/qrious/dist/umd/qrious.js"></script>
+    <script src="js/config.js"></script>
+    <script src="js/common.js"></script>
+    <script src="js/api.js"></script>
+    <script src="js/login.js"></script>
+    <script src="js/register.js"></script>
+    <script src="js/promo.js"></script>
+    <script src="js/hotel.js"></script>
+    <script src="js/account.js"></script>
+    <script src="js/customer.js"></script>
+    <script src="js/booking.js"></script>
+    <script src="js/checkin.js"></script>
+    <script src="js/bidding.js"></script>
+    <script type="text/javascript" src="js/custom.js"></script>
+    <script type="text/javascript">
+    $$('#splash-screen').on('click', function() {
+      $$(this).parents('.pages').removeClass('splashscreen')
+    })
+
+function clicked(eek){
+$$("#rangeval").on('input change',function () {
+      //console.log($$("#rangeval").val())
+      $$("#distance-number").val($$("#rangeval").val())
+  })
+
+}
+    </script>
+
+
+
+   
+  </body>
+</html>

@@ -1,0 +1,72 @@
+
+        <div data-page="bidhotel" class="page">
+          <div class="navbar">
+            <div class="navbar-inner">
+              <div class="left"><a href="index.html" class="back link icon-only"><i class="icon icon-back"></i></a></div>
+              <div class="center">Bid Me</div>
+              <div class="right"></div>
+            </div>
+          </div>
+          <div class="page-content" onclick="clicked('eek')">
+            <div class="content-block cover-block">
+              <form id="bid-form" class="bid-form list-block store-data">
+                <ul>
+                  <li>
+                    <div class="row">
+                      <div class="col-50">
+                        <div class="item-content">
+                          <div class="item-inner top-label">
+                            <label>
+                              <span>Start price</span>
+                              <input name="start_price" type="text" placeholder="-" class="price" value="">
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="col-50">
+                        <div class="item-content">
+                          <div class="item-inner top-label">
+                            <label>
+                              <span>Max price</span>
+                              <input name="max_price" type="text" placeholder="-" class="price" value="">
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </li>
+                  <li>
+                    <div class="item-content">
+                      <div class="item-inner top-label left-label">
+                        <label>
+                        <div class="row">
+                          <div class="col-50">
+                            <span id="text">Distance</span>
+                          </div>
+                          <div class="col-50">
+                            <input name="distance" type="text" id="distance-number" class="distance-number" value="5" ><span>km</span>
+                          </div>
+                          <div class="range-slider">
+                            <input id="rangeval" oninput="clicked('eek')"  onchange="clicked('eek')" type="range" min="0" max="10" value="5" step="0.1">
+                          </div>
+                          <script type="text/javascript">
+                          $$('#splash-screen').on('click', function() {
+                            $$(this).parents('.pages').removeClass('splashscreen')
+                          })
+                          $$("#rangeval").on('input change',function () {
+                            console.log($$("#rangeval").val())
+                            $$("#distance-number").val($$("#rangeval").val())
+                          })
+                          </script>
+                        </label>
+                      </div>
+                    </div>
+                  </li>
+                </ul>
+              </form>
+            </div>
+
+            <a class="btn main-btn bottom-btn" href="submit_bid.html">Next</a>
+          </div>
+          
+      </div>

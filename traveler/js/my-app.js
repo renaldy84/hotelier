@@ -628,7 +628,6 @@ myApp.onPageInit('save-hotel-failed',function(page){
 
 //BIDDINGS
 myApp.onPageInit('bids',function(page){
-  
   common.getLocation()
   .then(bidding.available)
   .then(function(bids){
@@ -647,7 +646,7 @@ myApp.onPageInit('bids',function(page){
      setTimeout(function(){
         mainView.router.loadPage("promo.html");
     },3000); 
-  });
+  });  
   
 });
 myApp.onPageInit('make_bid',function(page){
