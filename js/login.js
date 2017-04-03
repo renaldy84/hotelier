@@ -19,5 +19,10 @@ login.login = function(email,password,callback){
            }else{
                callback(false,false);
            }
+        },function(xhr,status){
+            common.handleAjaxError(xhr,status).then(function()
+            {
+                callback(false,false);
+            });
         });
 }

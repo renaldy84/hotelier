@@ -551,12 +551,15 @@ div.toolbar-main > .page-content{
 }
 
 
-#map{
-  background: url('../img/map.jpg');
-  width: 100%;
-  height: 200px;
-}
 
+#map-block{
+  
+  width: 100%;
+  height: 100%;
+}
+.mapContainer{
+  margin-top:42px;
+}
 img.star.yellow{
   content:url("../img/icons/star.png");
 }
@@ -649,7 +652,82 @@ img.star.empty{
   width: 20px;
   padding:30%;
 }
+.edit-hotel .stars img.star{
+  height: 20px;
+}
 
+.edit-hotel .stars{
+  margin: 15px 0px 15px 0px;
+}
+
+.edit-hotel .item-content > .row{
+  margin:15px 0px 15px 0px;
+}
+
+.edit-hotel .set-hotel-location{
+  background: #5290f1;
+  color:#f9ec0e;
+  margin: 5px;
+  padding: 5px;
+  font-size: 12px;
+  font-weight: 100;
+}
+
+.edit-hotel .coordinate{
+  font-size: 12px;
+  text-align: left;
+}
+
+.edit-hotel .coordinate p{
+  margin: 5px;
+}
+
+.edit-hotel .button.add-image{
+  width: 100%;
+  margin: 0px;
+  font-size: 14px;
+  text-transform: uppercase;
+  text-align: center;
+  color:#457bd0;
+  border:#457bd0 1px solid;
+  border-radius: 10px;
+  background: inherit;
+}
+
+.edit-hotel .button.add-image > img{
+  height: 20px;
+  margin-right: 10px;
+  vertical-align: middle;
+}
+
+.edit-hotel .img-item{
+  position: relative;
+  height: 75px;
+  margin-bottom: 10px;
+}
+
+.edit-hotel img.img-hotel{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 10px;
+}
+
+.edit-hotel div.img-delete{
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  background: rgba(0,0,0,0.3);
+  top:0px;
+  border-radius: 10px;
+}
+
+.edit-hotel div.img-delete > img{
+  width: 20px;
+  padding:30%;
+}
 .confirm .card{
   padding: 10px 0px;
 }
@@ -826,4 +904,21 @@ img.star.empty{
   90.1% { transform: rotate(324deg); }
   99.9% { transform: rotate(324deg); }
   100%  { transform: rotate(360deg); }
+}
+
+.hotel .card i.address, .hotel .card p.description {
+    font-size: 12px;
+    color: #353535;
+}
+
+.navbar .navbar-inner .left a {
+    margin: 12px 0px 12px 0px;
+    padding: 0px 10px;
+}
+.navbar .left{
+  margin-right:0px;
+}
+
+.view-map{
+  display:none;
 }

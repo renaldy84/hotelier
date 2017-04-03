@@ -8,6 +8,8 @@ booking.list = function(callback){
     },function(data,status){
         var rs = JSON.parse(data);
         callback(rs);
+    },function(xhr,status){
+        common.handleAjaxError(xhr,status);
     });
 }
 booking.get = function(id,callback){
@@ -19,6 +21,8 @@ booking.get = function(id,callback){
         
         var rs = JSON.parse(data);
         callback(rs);        
+    },function(xhr,status){
+        common.handleAjaxError(xhr,status);
     });
 };
 
@@ -32,6 +36,8 @@ booking.closeBooking = function(id,callback){
         
         var rs = JSON.parse(data);
         callback(rs);        
+    },function(xhr,status){
+        common.handleAjaxError(xhr,status);
     });
 }
 booking.checkedin = function(id,callback){
@@ -43,6 +49,8 @@ booking.checkedin = function(id,callback){
         
         var rs = JSON.parse(data);
         callback(rs);        
+    },function(xhr,status){
+        common.handleAjaxError(xhr,status);
     });
 }
 booking.add = function(data,callback){
@@ -53,5 +61,7 @@ booking.add = function(data,callback){
     $$.post(apiUrl,data,function(data,status){
         var rs = JSON.parse(data);
         callback(rs);
+    },function(xhr,status){
+        common.handleAjaxError(xhr,status);
     });
 }

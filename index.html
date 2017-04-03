@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, minimum-scale=1, user-scalable=no, minimal-ui">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
-    <title>My App</title>
+    <title>GetHotel for Hotelier</title>
     <!-- Path to Framework7 Library CSS-->
     <link rel="stylesheet" href="css/framework7.ios.min.css">
     <link rel="stylesheet" href="css/framework7.ios.colors.min.css">
@@ -61,7 +61,7 @@
       <div id="logout" class="list-block nude">
         <ul>
           <li>
-            <a href="login.html" class="close-panel">
+            <a href="logout.html" class="close-panel">
               <div class="item-content">
                 <div class="item-media">
                 </div>
@@ -88,21 +88,45 @@
           </div>
         </div>
       </div>
+      <div class="view view-map">
+        <div class="pages navbar-fixed">
+          <!-- Page, data-page contains page name-->
+          <div data-page="map-page" class="page no-toolbar">
+            <div class="navbar bg-white">
+              <div class="navbar-inner">
+                <div class="left"><a href="javascript:closeMap();"> <i class="icon icon-back"></i></a></div>
+                <div class="center sliding">Location</div>
+                <div class="right"></div>
+              </div>
+            </div>
+            <div class="mapContainer">
+              <div id="map-block"></div>
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
+    
+    
+    <!--fix for cordova circular json bug -->
+    <!--<script type="text/javascript" src="js/cycle.js"></script>-->
     <!-- Path to Cordova Library JS-->
-    <!--<script type="text/javascript" src="cordova.js"></script>
-    <script type="text/javascript" src="cordova_plugins.js"></script>-->
+    
+    <script type="text/javascript" src="cordova.js"></script>
+    <script type="text/javascript" src="cordova_plugins.js"></script>
     <script type="text/javascript" src="js/index.js"></script>
     <!-- Path to Framework7 Library JS-->
     <script type="text/javascript" src="js/framework7.min.js"></script>
     
     <!--hotelier app libs-->
     <script src="js/config.js"></script>
+    <script src="js/map.js"></script>
     <script src="js/common.js"></script>
     <script src="js/api.js"></script>
     <script src="js/login.js"></script>
     <script src="js/register.js"></script>
     <script src="js/promo.js"></script>
+    <script src="js/hotel_photo.js"></script>
     <script src="js/hotel.js"></script>
     <script src="js/account.js"></script>
     <script src="js/customer.js"></script>
@@ -151,15 +175,15 @@
        {{#each hotel}}
       <li>
             <a href="edit_hotel.html?id={{id}}">
-              <div class="card">
+              <div class="card"> <!--card-->
                 <div class="card-content">
                   <div class="card-content-inner">
                     <div class="row no-gutter">
-                      <a></a> <!-- Sengaja Dikososngkan -->
+                       <!-- Sengaja Dikososngkan -->
                       <div class="col-66">
                         <p class="title">{{name}}</p>
                         <i class="address">{{address}}</i>
-                      </div>
+                      </div><!--col-66-->
                       <div class="col-33">
                         <a href="edit_hotel.html?id={{id}}">
                           <div class="dot"></div>
@@ -168,15 +192,16 @@
                           {{#each star}}
                           <img class="star yellow"/>
                           {{/each}}
-                        </div>
-                      </div>
-                    </div>
+                        </div><!--/stars-->
+                        
+                      </div><!--/col-33-->
+                    </div><!--row-no-gutter-->
                     <p class="description">
                       {{description}}
                     </p>
-                  </div>
-                </div>
-              </div>
+                  </div><!--card-content-inner-->
+                </div><!--card-content-->
+              </div><!--/card-->
             </a>
         </li>
         {{/each}}
@@ -303,6 +328,7 @@
                 </div>
               </div>
             </li>
+            
             <li>
               <div class="item-content">
                 <div class="row no-gutter">
@@ -323,7 +349,7 @@
               </div>
             </li>
             <li>
-              <div id="map"></div>
+              
             </li>
             <li>
               <div class="item-content input-title">
@@ -388,214 +414,174 @@
                 </div>
               </div>
             </li>
-            <!--
-            <li>
-              <div class="item-content">
-                <div class="item-inner">
-                  <div class="row">
-                    <div class="col-25 img-item">
-                      <img class="img-hotel" src="img/h1.jpg"/>
-                      <div class="img-delete">
-                        <img src="img/icons/trash-white.png"></img>
-                      </div>
-                    </div>
-                    <div class="col-25 img-item">
-                      <img class="img-hotel" src="img/h1.jpg"/>
-                      <div class="img-delete">
-                        <img src="img/icons/trash-white.png"></img>
-                      </div>
-                    </div>
-                    <div class="col-25 img-item">
-                      <img class="img-hotel" src="img/h1.jpg"/>
-                      <div class="img-delete">
-                        <img src="img/icons/trash-white.png"></img>
-                      </div>
-                    </div>
-                    <div class="col-25 img-item">
-                      <img class="img-hotel" src="img/h1.jpg"/>
-                      <div class="img-delete">
-                        <img src="img/icons/trash-white.png"></img>
-                      </div>
-                    </div>
-                    <div class="col-25 img-item">
-                      <img class="img-hotel" src="img/h1.jpg"/>
-                      <div class="img-delete">
-                        <img src="img/icons/trash-white.png"></img>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </li>-->
+          
           </ul>
+          
+          
     </script>
     <!--/template add hotel-->
+    <!-- template edit hotel -->
     <script id="tpl-edit-hotel" type="text/template7">
       <ul>
-            <li>
+          <li>
               <div class="item-content input-title">
-                <span>Hotel Name</span>
+              <span>Hotel Name</span>
               </div>
-            </li>
-            <li>
+          </li>
+          <li>
               <div class="item-content">
-                <div class="item-inner">
+              <div class="item-inner">
                   <div class="item-input">
-                    <input name="name" type="text" value="{{name}}"/>
+                  <input name="name" type="text" value="{{name}}"/>
                   </div>
-                </div>
               </div>
-            </li>
-            <li>
+              </div>
+          </li>
+          <li>
               <div class="item-content input-title">
-                <span>Address</span>
+              <span>Address</span>
               </div>
-            </li>
-            <li>
+          </li>
+          <li>
               <div class="item-content">
-                <div class="item-inner">
+              <div class="item-inner">
                   <div class="item-input">
-                    <textarea name="address"></textarea>
+                  <textarea name="address">{{address}}</textarea>
                   </div>
-                </div>
               </div>
-            </li>
-            <li>
+              </div>
+          </li>
+          <li>
               <div class="item-content">
-                <div class="row no-gutter">
+              <div class="row no-gutter">
                   <div class="col-50">
-                    <a href="#" class="button set-hotel-location">Set Hotel Location</a>
+                   
+                      <a href="#" class="button set-hotel-location">Set Hotel Location</a>
+                    
                   </div>
                   <div class="col-50 coordinate">
-                    <div class="lat">
+                  <div class="lat">
                       <p></p>
-                      <input type="hidden" name="lat"/>
-                    </div>
-                    <div class="lng">
+                      
+                  </div>
+                  <div class="lng">
                       <p></p>
-                      <input type="hidden" name="lng" />
-                    </div>
+                      
                   </div>
-                </div>
+                  </div>
               </div>
-            </li>
-            <li>
-              <div id="map"></div>
-            </li>
-            <li>
+              </div>
+          </li>
+          
+          <li>
               <div class="item-content input-title">
-                <span>Phone</span>
+              <span>Phone</span>
               </div>
-            </li>
-            <li>
+          </li>
+          <li>
               <div class="item-content">
-                <div class="item-inner">
+              <div class="item-inner">
                   <div class="item-input">
-                    <input name="phone" type="tel" value="{{phone}}"/>
+                  <input name="phone" type="tel" value="{{phone}}"/>
                   </div>
-                </div>
               </div>
-            </li>
-            <li>
+              </div>
+          </li>
+          <li>
               <div class="item-content input-title">
-                <span>Email</span>
+              <span>Email</span>
               </div>
-            </li>
-            <li>
+          </li>
+          <li>
               <div class="item-content">
-                <div class="item-inner">
+              <div class="item-inner">
                   <div class="item-input">
-                    <input name="email" type="email" value="{{email}}"/>
+                  <input name="email" type="email" value="{{email}}"/>
                   </div>
-                </div>
               </div>
-            </li>
-            <li>
+              </div>
+          </li>
+          <li>
               <div class="item-content input-title">
-                <span>Description</span>
+              <span>Description</span>
               </div>
-            </li>
-            <li>
+          </li>
+          <li>
               <div class="item-content">
-                <div class="item-inner">
+              <div class="item-inner">
                   <div class="item-input">
-                    <input name="description" type="text" value="{{description}}"/>
+                  <textarea name="description">{{description}}</textarea>
+                  
                   </div>
-                </div>
               </div>
-            </li>
-            <li>
+              </div>
+          </li>
+          <li>
               <div class="item-content input-title">
-                <span>Stars</span>
+                  <span>Stars</span>
               </div>
-            </li>
-            <li>
+          </li>
+          <li>
               <div class="item-content">
-                <div class="item-inner">
-                  <div class="item-input" id="star-input">
-                    <input type="hidden" name="star"/>
-                    <div class="stars">
-                      <img class="star yellow"/>
-                      <img class="star yellow"/>
-                      <img class="star yellow"/>
-                      <img class="star gray"/>
-                      <img class="star gray"/>
-                    </div>
+                  <div class="item-inner">
+                      <div class="item-input" id="star-input">
+                          
+                          <div class="stars">
+                              <img class="star star-item yellow"/>
+                              <img class="star star-item yellow"/>
+                              <img class="star star-item yellow"/>
+                              <img class="star star-item gray"/>
+                              <img class="star star-item gray"/>
+                          </div>
+                      </div>
                   </div>
-                </div>
               </div>
-            </li>
-            <li>
+          </li>
+          <li>
               <div class="item-content">
-                <div class="item-inner">
-                  <a href="#" class="button add-image">
-                    <img src="img/icons/gallery-blue.png"/>
-                    <span>Add Picture</span>
-                  </a>
-                </div>
+                  <div class="item-inner">
+                      <div class="item-input">
+                          <input type="hidden" name="hotel_id" value="{{id}}"/>
+                          <input type="hidden" name="lat" value="{{lat}}"/>
+                          <input type="hidden" name="lon" value="{{lon}}" />
+                          <input type="hidden" name="stars" value="{{stars}}"/>
+                      </div>
+                  </div>
               </div>
-            </li>
-            <!--
-            <li>
+          </li>
+          <li>
+            <div class="item-content">
+              <div class="item-inner">
+                <a href="add_hotel_photo.html?id={{id}}" class="button add-image">
+                  <img src="img/icons/gallery-blue.png"/>
+                  <span>Add Picture</span>
+                </a>
+              </div>
+            </div>
+          </li>
+          <li>
               <div class="item-content">
                 <div class="item-inner">
                   <div class="row">
+                    {{#each pictures}}
                     <div class="col-25 img-item">
-                      <img class="img-hotel" src="img/h1.jpg"/>
+                      <img class="img-hotel" src="{{../imgUrl}}{{picfile}}"/>
                       <div class="img-delete">
                         <img src="img/icons/trash-white.png"></img>
                       </div>
                     </div>
-                    <div class="col-25 img-item">
-                      <img class="img-hotel" src="img/h1.jpg"/>
-                      <div class="img-delete">
-                        <img src="img/icons/trash-white.png"></img>
-                      </div>
-                    </div>
-                    <div class="col-25 img-item">
-                      <img class="img-hotel" src="img/h1.jpg"/>
-                      <div class="img-delete">
-                        <img src="img/icons/trash-white.png"></img>
-                      </div>
-                    </div>
-                    <div class="col-25 img-item">
-                      <img class="img-hotel" src="img/h1.jpg"/>
-                      <div class="img-delete">
-                        <img src="img/icons/trash-white.png"></img>
-                      </div>
-                    </div>
-                    <div class="col-25 img-item">
-                      <img class="img-hotel" src="img/h1.jpg"/>
-                      <div class="img-delete">
-                        <img src="img/icons/trash-white.png"></img>
-                      </div>
-                    </div>
+                    {{/each}}
+
+                    
                   </div>
                 </div>
               </div>
-            </li>-->
-          </ul>
-    </script>
+            </li>
+      </ul>
+  </script>
+
+    <!--/template edit hotel -->
+    
     <script id="tpl-confirm-list" type="text/template7">
     {{#each bookings}}
        <li>
@@ -789,6 +775,9 @@
       {{else}}
       <p class="no-data">currently no one is bidding around</p>
       {{/if}}
+    </script>
+    <script id="tpl-hotel-photo" type="text/template7">
+      
     </script>
     <!-- Path to your app js-->
     <script type="text/javascript" src="js/my-app.js"></script>    

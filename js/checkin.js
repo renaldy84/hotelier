@@ -32,12 +32,13 @@ checkin.scan = function(qrstring){
             booking.get(booking_id,function(response){
                 if(response.status==1){
                     var data = response.data;
-                    if(customer_id != data.customer.id) reject(new Error('invalid booking code'));
-                    if(hotel_id != data.hotel_id) reject(new Error('invalid booking code'));
-                    if(booking_id != data.id) reject(new Error('invalid booking code'));
-                    if(promo_id != data.promo.id) reject(new Error('invalid booking code'));
-                    if(data.booking_status !=0 ) reject(new Error('these booking is already been checked in before'));
-                    resolve(data);
+                    console.log('booking_data',data);
+                    if(customer_id != data.customer.id) return reject(new Error('invalid booking code'));
+                    else if(hotel_id != data.hotel_id) return reject(new Error('invalid booking code'));
+                    else if(booking_id != data.id) return reject(new Error('invalid booking code'));
+                    else if(promo_id != data.promo.id) return reject(new Error('invalid booking code'));
+                    else if(data.booking_status !=0 ) return reject(new Error('these booking is already been checked in before'));
+                    else resolve(data);
                 }else{
                     reject(new Error("sorry, these booking code is not available. Please re-scan again !"));
                 }

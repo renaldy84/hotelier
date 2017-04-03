@@ -14,6 +14,11 @@ register.register = function(data,callback){
             }else{
                 callback(false);
             }
+        },function(xhr,status){
+            common.handleAjaxError(xhr,status).then(function(){
+                callback(false);
+            });
+            
         });
     }else{
         callback(false);

@@ -21,6 +21,8 @@ bidding.available = function(location){
                 reject(new Error('cannot retrieve bidding list'));
             }
             
+        },function(xhr,status){
+            common.handleAjaxError(xhr,status);
         });
     });
 }
@@ -37,6 +39,8 @@ bidding.submit = function(data){
             }else{
                 reject(new Error('cannot submit a bid'));
             }
+        },function(xhr,status){
+            common.handleAjaxError(xhr,status);
         });
     });
     
@@ -64,6 +68,8 @@ bidding.bid = function(bid_id,price){
                     reject(new Error('cannot bid'));
                 }
                 
+            },function(xhr,status){
+                common.handleAjaxError(xhr,status);
             });
         });
         
@@ -89,6 +95,8 @@ bidding.list = function(){
                 reject(new Error('cannot retrieve bidding list'));
             }
             
+        },function(xhr,status){
+            common.handleAjaxError(xhr,status);
         });
     });
 }

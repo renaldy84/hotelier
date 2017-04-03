@@ -8,17 +8,30 @@ account.me = function(callback){
     function(data,status){       
         var rs = JSON.parse(data);
         callback(rs);        
+    },function(xhr,status){
+        common.handleAjaxError(xhr,status);
     });
 }
 account.getInfo = function(callback){
     var at = common.getAccessToken();
-    var apiUrl = config.apiUrl+api.accountGetInfo;
-    $$.get(apiUrl,{access_token:at},
-    function(data,status){       
-        var rs = JSON.parse(data);
-        common.setLocal('account',rs.account);
-        callback(rs);        
-    });
+    
+    if(at==null){
+        callback({status:0});
+    }else{
+        var apiUrl = config.apiUrl+api.accountGetInfo;
+        $$.get(apiUrl,{access_token:at},
+        function(data,status){       
+            var rs = JSON.parse(data);
+            common.setLocal('account',rs.account);
+            callback(rs);        
+        },function(xhr,status){
+            common.handleAjaxError(xhr,status).then(function()
+            {
+                callback({status:0});
+            });
+        });
+    }
+    
 }
 
 account.update = function(id,data,callback){
@@ -34,6 +47,8 @@ account.update = function(id,data,callback){
             callback(false);
         }
         
+    },function(xhr,status){
+        common.handleAjaxError(xhr,status);
     });
 }
 

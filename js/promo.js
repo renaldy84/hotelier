@@ -10,6 +10,8 @@ promo.list = function(callback){
     },function(data,status){
         var rs = JSON.parse(data);
         callback(rs);
+    },function(xhr,status){
+        common.handleAjaxError(xhr,status);
     });
 }
 
@@ -20,6 +22,8 @@ promo.create = function(data,callback){
     $$.post(apiUrl,data,function(data,status){
         var rs = JSON.parse(data);
         callback(rs);        
+    },function(xhr,status){
+        common.handleAjaxError(xhr,status);
     });
 }
 
@@ -30,6 +34,8 @@ promo.update = function(id,data,callback){
     $$.post(apiUrl,data,function(data,status){
         var rs = JSON.parse(data);
         callback(rs);        
+    },function(xhr,status){
+        common.handleAjaxError(xhr,status);
     });
 }
 promo.get = function(id,callback){
@@ -39,6 +45,8 @@ promo.get = function(id,callback){
     $$.get(apiUrl,{access_token:at},function(data,status){
         var rs = JSON.parse(data);
         callback(rs);        
+    },function(xhr,status){
+        common.handleAjaxError(xhr,status);
     });
 }
 
@@ -54,5 +62,7 @@ promo.delete = function(id,callback){
             callback(false);
         }
         
+    },function(xhr,status){
+        common.handleAjaxError(xhr,status);
     });
 }
