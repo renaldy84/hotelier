@@ -45,20 +45,32 @@ bidding.submit = function(data){
     });
     
 }
-bidding.bid = function(bid_id,price){
+bidding.bid = function(bid_id,formData){
     if(typeof bid_id === 'undefined') return false;
-    if(typeof price === 'undefined') return false;
-    if(isNaN(price)) return false
+    if(typeof formData.price === 'undefined') return false;
+    if(typeof formData.early_checkin === 'undefined') return false;
+    if(typeof formData.late_checkout === 'undefined') return false;
+    if(typeof formData.breakfast === 'undefined') return false;
+    if(typeof formData.wifi === 'undefined') return false;
+    if(typeof formData.pickup_service === 'undefined') return false;
+
+    if(isNaN(formData.price)) return false
 
     return new Promise(function(resolve,reject){
         var at = common.getAccessToken();
         common.getLocation().then(function(location){
             var apiUrl = config.apiUrl+api.make_bid+'/'+bid_id;
-            $$.get(apiUrl,{access_token:at,
-                            price:price,
-                            lat:location.lat,
-                            lon:location.lon
-                            },
+            $$.get(apiUrl,{
+                access_token:at,
+                price:formData.price,
+                lat:location.lat,
+                lon:location.lon,
+                early_checkin:formData.early_checkin[0],
+                late_checkout:formData.late_checkout[0],
+                breakfast:formData.breakfast[0],
+                wifi:formData.wifi[0],
+                pickup_service:formData.pickup_service[0]
+            },
             function(data,status){
                 var rs = JSON.parse(data);
                 
@@ -76,14 +88,26 @@ bidding.bid = function(bid_id,price){
         
     });
 }
-bidding.get = function(bid_id){
+bidding.get = function(bid_id,lat,lon){
     return new Promise(function(resolve,reject){
-
+        var at = common.getAccessToken();
+        var apiUrl = config.apiUrl+api.viewBid+'/'+bid_id+'?lat='+lat+'&lon='+lon;
+        $$.get(apiUrl,{access_token:at},
+        function(data,status){
+            var rs = JSON.parse(data);
+            if(status==200){
+                resolve(rs.data);        
+            }else{
+                reject(new Error('cannot retrieve bidding info'));
+            }
+        });
     });
 }
+
+/* getting the current biddings */
 bidding.list = function(){
     return new Promise(function(resolve,reject){
-         var at = common.getAccessToken();
+        var at = common.getAccessToken();
         var apiUrl = config.apiUrl+api.currentBiddings;
 
         $$.get(apiUrl,{access_token:at},

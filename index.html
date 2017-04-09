@@ -96,7 +96,7 @@
               <div class="navbar-inner">
                 <div class="left"><a href="javascript:closeMap();"> <i class="icon icon-back"></i></a></div>
                 <div class="center sliding">Location</div>
-                <div class="right"></div>
+                <div class="right"><a href="javascript:updateLocation();" class="green">SET</a></div>
               </div>
             </div>
             <div class="mapContainer">
@@ -119,6 +119,7 @@
     <script type="text/javascript" src="js/framework7.min.js"></script>
     
     <!--hotelier app libs-->
+    <script src="js/utils.js"></script>
     <script src="js/config.js"></script>
     <script src="js/map.js"></script>
     <script src="js/common.js"></script>
@@ -161,10 +162,10 @@
           </div>
         </div>
         <div class="swipeout-actions-right">
-          <a href="edit_promo.html?id={{id}}">
+          <!--<a href="edit_promo.html?id={{id}}">
             <img src="img/icons/pencil-white.png"/>
-          </a>
-          <a href="delete_promo.html?id={{id}}">
+          </a>-->
+          <a href="#" data-id="{{id}}" class="promo-btn-delete">
             <img src="img/icons/trash-white.png"/>
           </a>
         </div>
@@ -697,7 +698,30 @@
       </div>
       <a href="confirm-loading.html" class="button button-round">Check In</a>
     </script>
-
+    <script id="tpl-traveler-bid-info" type="text/template7">
+      <div class="card-content">
+          <div class="item-content">
+            <div class="item-media">
+              <img src="img/pp.jpg" class="circle"/>
+            </div>
+            <div class="item-inner">
+              <div class="item-title-row">
+                <p class="title blue">{{bidData.customer_name}}</p>
+                <div class="info">
+                  <div>
+                    <img src="img/icons/location-gray.png">
+                    <span>{{bidData.distance}} KM</span>
+                  </div>
+                  <div>
+                    <img src="img/icons/dollar-gray.png">
+                    <span>Rp {{bidData.budget}}</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </script>
     <script id="tpl-bid-list" type="text/template7">
     {{#if has_bids}}
      {{#each bids}}
@@ -754,16 +778,16 @@
                       <div class="info">
                         <div>
                           <img src="img/icons/location-gray.png">
-                          <span>{{bidding.distance}} KM</span>
+                          <span>{{distance}} KM</span>
                         </div>
                         <div>
                           <img src="img/icons/dollar-gray.png">
-                          <span>Rp {{bidding.budget}}</span>
+                          <span>Rp {{price}}</span>
                         </div>
                       </div>
                     </div>
                     <div class="item-subtitle">
-                      <button class="button">Change</button>
+                      <button class="button btn-cancel-bid">CANCEL</button>
                     </div>
                   </div>
                 </div>
@@ -773,7 +797,7 @@
         </li>
       {{/each}}
       {{else}}
-      <p class="no-data">currently no one is bidding around</p>
+      <p class="no-data">You have no bids at the moment.</p>
       {{/if}}
     </script>
     <script id="tpl-hotel-photo" type="text/template7">

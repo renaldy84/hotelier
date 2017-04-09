@@ -15,6 +15,7 @@ var myLocation = {
 };
 
 var is_first_timer = false;
+var current_map_opener = false;
 
 //compile templates
 var tplPromoItem = Template7.compile($$("#tpl-promo-item").html());
@@ -26,7 +27,7 @@ var tplConfirmList = Template7.compile($$("#tpl-confirm-list").html());
 var tplBookingInfo = Template7.compile($$("#tpl-booking-info").html());
 var tplBidList = Template7.compile($$("#tpl-bid-list").html());
 var tplCurrentBidList = Template7.compile($$("#tpl-currentbid-list").html());
-
+var tplTravelerBidInfo = Template7.compile($$("#tpl-traveler-bid-info").html());
 
 // Add view
 var mainView = myApp.addView('.view-main', {
@@ -174,17 +175,76 @@ myApp.onPageInit('promo',function(page){
 
   promo.list(function(rs){
         if(rs.status==1){
+          if(rs.promos.length > 0){
+            for(var i in rs.promos){
+              rs.promos[i].regular_price = number_format(rs.promos[i].regular_price);
+              rs.promos[i].promo_price = number_format(rs.promos[i].promo_price);
+            }
+          }
+          
           var html = tplPromoItem({promo:rs.promos});
-            $$(".promo-items").html(html);
+          $$(".promo-items").html(html);
+          //add event
+          $$('.promo-btn-delete').on('click', function () {
+            var promo_id = $$(this).attr('data-id');
+              myApp.confirm('#'+promo_id+' - Deleting these promo will cancel the promo immediately, are you sure ?',
+                'Confirm', 
+                function () {
+                  if(typeof promo_id !== 'undefined'){
+                    setTimeout(function(){
+                      mainView.router.loadPage('delete_promo.html?id='+promo_id);
+                    },1000);                    
+                  }
+                  
+                },
+                function () {
+                 //do nothing
+                }
+                
+              );
+          });
         }
       
     }); 
 
 });
+myApp.onPageInit("delete-promo",function(page){
+  var promo_id = page.query.id;
+  if(typeof promo_id !== 'undefined'){
+    promo.delete(promo_id,function(success){
+      if(success){
+        setTimeout(function(){
+          mainView.router.loadPage('delete_promo_success.html');
+        },1000);
+      }else{
+        setTimeout(function(){
+          mainView.router.loadPage('delete_promo_failed.html');
+        },1000);
+      }
+    });
+  }else{
+    setTimeout(function(){
+      mainView.router.loadPage('delete_promo_failed.html');
+    },1000);
+  }
+});
+myApp.onPageInit('delete-promo-success',function(page){
+  setTimeout(function(){
+      mainView.router.loadPage('promo.html');
+    },1000);
+});
+myApp.onPageInit('delete-promo-failed',function(page){
+  setTimeout(function(){
+      mainView.router.loadPage('promo.html');
+    },1000);
+});
 myApp.onPageInit('hotel',function(page){
   common.currentPageUrl = page.url;
   hotel.list(function(rs){
     if(rs.status==1){
+      if(rs.hotel.length > 0){
+        is_first_timer = false;
+      }
       var html = tplHotelItem({hotel:rs.hotel});
       $$(".hotel-items").html(html);
       
@@ -583,6 +643,28 @@ var closeMap = function(){
   $$(".panel").show();
   $$(".view-map").hide();
 }
+
+var updateLocation = function(){
+  var newLocation = map.currentLocation;
+  $$(".lat").children('p').text(newLocation.lat);
+  $$(".lat").children('input').val(newLocation.lat);
+  $$(".lng").children('p').text(newLocation.lng);
+  $$(".lng").children('input').val(newLocation.lng);
+  $$("input[name=lat]").val(newLocation.lat);
+  $$("input[name=lon]").val(newLocation.lng); 
+
+
+  if(current_map_opener == 'edit-hotel'){
+   
+    myApp.formStoreData("edithotel-form",myApp.formToData("#edithotel-form"));
+  }
+
+  $$(".view-main").show();
+  $$(".panel").show();
+  $$(".view-map").hide();
+  myApp.alert('New Location has been set successfully !','Location');
+  
+}
 myApp.onPageInit("add-hotel",function(page){
   common.currentPageUrl = page.url;
   //watchLocation
@@ -597,7 +679,7 @@ myApp.onPageInit("add-hotel",function(page){
     $$(".btn-back-hotel").show();
   }
   $$(".set-hotel-location").click(function(){
-    
+    current_map_opener = 'add-hotel';
     //hide the mainview, and display the map view
     $$(".view-main").hide();
     $$(".panel").hide();
@@ -616,10 +698,10 @@ myApp.onPageInit("add-hotel",function(page){
                   function(err,newLocation){
                     console.log('new location');
                     if(!err){
-                      $$(".lat").children('p').text(newLocation.lat);
-                      $$(".lat").children('input').val(newLocation.lat);
-                      $$(".lng").children('p').text(newLocation.lng);
-                      $$(".lng").children('input').val(newLocation.lng);    
+                      //$$(".lat").children('p').text(newLocation.lat);
+                     // $$(".lat").children('input').val(newLocation.lat);
+                     // $$(".lng").children('p').text(newLocation.lng);
+                     // $$(".lng").children('input').val(newLocation.lng);    
                     }else{
                       console.log('error:',err.message);
                     }
@@ -629,10 +711,10 @@ myApp.onPageInit("add-hotel",function(page){
               //setlocation at once
               map.setLocation(myLocation,function(err,newLocation){
                 console.log('tell location');
-                $$(".lat").children('p').text(newLocation.lat);
-                $$(".lat").children('input').val(newLocation.lat);
-                $$(".lng").children('p').text(newLocation.lng);
-                $$(".lng").children('input').val(newLocation.lng);
+               // $$(".lat").children('p').text(newLocation.lat);
+               // $$(".lat").children('input').val(newLocation.lat);
+               // $$(".lng").children('p').text(newLocation.lng);
+               // $$(".lng").children('input').val(newLocation.lng);
               });
           });
         });
@@ -807,7 +889,7 @@ var setupEditHotelContent = function(data){
         if (data.stars == 0) data.stars = 1;
 
         $$(".set-hotel-location").click(function(){
-    
+          current_map_opener = 'edit-hotel';
           //hide the mainview, and display the map view
           $$(".view-main").hide();
           $$(".panel").hide();
@@ -825,13 +907,15 @@ var setupEditHotelContent = function(data){
                         function(err,newLocation){
                           console.log('new location');
                           if(!err){
-                            $$(".lat").children('p').text(newLocation.lat);
-                            $$("input[name=lat]").val(newLocation.lat);
-                            $$(".lng").children('p').text(newLocation.lng);
-                            $$("input[name=lon]").val(newLocation.lng); 
+                            //$$(".lat").children('p').text(newLocation.lat);
+                           // $$("input[name=lat]").val(newLocation.lat);
+                           // $$(".lng").children('p').text(newLocation.lng);
+                           // $$("input[name=lon]").val(newLocation.lng); 
                             
                             //hidden fields cannot trigger the formStoreData, so we do it manually
-                            myApp.formStoreData("edithotel-form",myApp.formToData("#edithotel-form"));
+                            
+                            
+                           // myApp.formStoreData("edithotel-form",myApp.formToData("#edithotel-form"));
                             
                           }else{
                             console.log('error:',err.message);
@@ -843,10 +927,10 @@ var setupEditHotelContent = function(data){
                     //setlocation at once
                     map.setLocation({lat:data.lat,lon:data.lon},function(err,newLocation){
                       console.log('tell location');
-                      $$(".lat").children('p').text(newLocation.lat);
-                      $$("input[name=lat]").val(newLocation.lat);
-                      $$(".lng").children('p').text(newLocation.lng);
-                      $$("input[name=lon]").val(newLocation.lng);
+                      //$$(".lat").children('p').text(newLocation.lat);
+                    // $$("input[name=lat]").val(newLocation.lat);
+                     // $$(".lng").children('p').text(newLocation.lng);
+                     // $$("input[name=lon]").val(newLocation.lng);
                       //hidden fields cannot trigger the formStoreData, so we do it manually
                       console.log('formToData',myApp.formToData("#edithotel-form"));
                       
@@ -965,13 +1049,27 @@ myApp.onPageInit('make_bid',function(page){
   common.currentPageUrl = page.url;
   var bid_id = page.query.id;
   common.setLocal('selected_bid_id',bid_id);
+  //tplTravelerBidInfo
+  common.getLocation()
+      .then(function(myLocation){
+        bidding.get(bid_id,myLocation.lat,myLocation.lon).then(function(bidData){
+          console.log('biddata',bidData);
+          var html = tplTravelerBidInfo({bidData:bidData});
+          $$(".bid-traveler-info").html(html);
 
+        }).catch(function(err){
+          myApp.alert("Cannot retrieve bid info, please try again later !","");
+        });
+      }).catch(function(err){
+         myApp.alert("Cannot retrieve bid info, please make sure you have GPS enabled !","");
+      });
+  
 });
 myApp.onPageInit('save-bid',function(page){
   common.currentPageUrl = page.url;
   var bid_id = common.getLocal("selected_bid_id");
   var formData = myApp.formGetData('bid-form');
-  bidding.bid(bid_id,formData.price).then(function(success){
+  bidding.bid(bid_id,formData).then(function(success){
     if(success){
       setTimeout(function(){
         mainView.router.loadPage("save_bid_success.html");
