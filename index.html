@@ -134,6 +134,7 @@
     <script src="js/booking.js"></script>
     <script src="js/checkin.js"></script>
     <script src="js/bidding.js"></script>
+    <script src="js/profile_photo.js"></script>
 
 
     <script async defer
@@ -298,7 +299,11 @@
           </ul>
     </script>
     <!--template add hotel -->
-
+    <script id="tpl-hotel-dropdown-list" type="text/template7">
+      {{#each hotels}}
+        <option value="{{id}}" selected>{{name}}</option>
+      {{/each}}         
+    </script>
     <script id="tpl-add-hotel" type="text/template7">
       <ul>
             <li>
@@ -306,6 +311,7 @@
                 <span>Hotel Name</span>
               </div>
             </li>
+            
             <li>
               <div class="item-content">
                 <div class="item-inner">
@@ -591,7 +597,11 @@
                 <div class="card-content">
                   <div class="item-content">
                     <div class="item-media">
+                      {{#if has_pic}}
+                      <img src="{{customer_pic.split('uploads/').join('imagecache/small/')}}" class="circle" class="circle"/>
+                      {{else}}
                       <img src="img/pp.jpg" class="circle" class="circle"/>
+                      {{/if}}
                     </div>
                     <div class="item-inner">
                       <div class="item-title-row">
@@ -731,7 +741,11 @@
               <div class="card-content">
                 <div class="item-content">
                   <div class="item-media">
-                    <img src="img/pp.jpg" class="circle"/>
+                    {{#if has_customer_pic}}
+                      <img src="{{customer_pic.split('uploads/').join('imagecache/small/')}}" class="circle" class="circle"/>
+                      {{else}}
+                      <img src="img/pp.jpg" class="circle" class="circle"/>
+                      {{/if}}
                   </div>
                   <div class="item-inner">
                     <div class="item-title-row">
@@ -770,7 +784,11 @@
               <div class="card-content">
                 <div class="item-content">
                   <div class="item-media">
-                    <img src="img/pp.jpg" class="circle"/>
+                    {{#if has_customer_pic}}
+                      <img src="{{customer_pic.split('uploads/').join('imagecache/small/')}}" class="circle" class="circle"/>
+                      {{else}}
+                      <img src="img/pp.jpg" class="circle" class="circle"/>
+                      {{/if}}
                   </div>
                   <div class="item-inner">
                     <div class="item-title-row">
@@ -787,7 +805,7 @@
                       </div>
                     </div>
                     <div class="item-subtitle">
-                      <button class="button btn-cancel-bid">CANCEL</button>
+                      <button class="button btn-cancel-bid" data-id="{{id}}">CANCEL</button>
                     </div>
                   </div>
                 </div>

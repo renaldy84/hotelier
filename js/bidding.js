@@ -103,6 +103,21 @@ bidding.get = function(bid_id,lat,lon){
         });
     });
 }
+bidding.cancel = function(bid_id){
+    return new Promise(function(resolve,reject){
+        var at = common.getAccessToken();
+        var apiUrl = config.apiUrl+api.cancelBid+'/'+bid_id;
+        $$.get(apiUrl,{access_token:at},
+        function(data,status){
+            var rs = JSON.parse(data);
+            if(status==200){
+                resolve(true);        
+            }else{
+                reject(false);
+            }
+        });
+    });
+}
 
 /* getting the current biddings */
 bidding.list = function(){

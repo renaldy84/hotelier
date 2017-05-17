@@ -49,6 +49,7 @@ var api = {
     viewBid:'/hotelier/biddings/view',
     make_bid:'/hotelier/biddings/bid',
     submitBid:'/hotelier/biddings/submit',
+    cancelBid:'/hotelier/biddings/bid_canceled',
     //-->
     updateAccount:'/hotelier/account/update',
     accountGetInfo:'/hotelier/account',

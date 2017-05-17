@@ -28,7 +28,7 @@ var tplBookingInfo = Template7.compile($$("#tpl-booking-info").html());
 var tplBidList = Template7.compile($$("#tpl-bid-list").html());
 var tplCurrentBidList = Template7.compile($$("#tpl-currentbid-list").html());
 var tplTravelerBidInfo = Template7.compile($$("#tpl-traveler-bid-info").html());
-
+var tplHotelDropdownList = Template7.compile($$("#tpl-hotel-dropdown-list").html());
 // Add view
 var mainView = myApp.addView('.view-main', {
     // Because we use fixed-through navbar we can enable dynamic navbar
@@ -82,6 +82,14 @@ myApp.onPageInit("init-app",function(page){
 myApp.onPageInit('login',function (page){
   $$('.button-fb').on('click',function(){
     myApp.alert('Facebook Connect is not enabled yet.','');
+  });
+  $$(".show-password").click(function(){
+    if($$("input[name=password]").attr('type') == 'password'){
+      $$("input[name=password]").attr('type','text');
+    }else{
+      $$("input[name=password]").attr('type','password');
+    }
+    
   });
 });
 //LOGOUT
@@ -257,8 +265,50 @@ myApp.onPageInit('account',function(page){
   var myAccount = common.getLocal('account');
   var html = tplAccount(myAccount);
   $$("#account-form").html(html);
+  account.me(function(info){
+      //load the profile pic
+      console.log(info.me);
+      if(typeof info.me.profile_pic !== 'undefined'){
+        $$(".pp").attr('src',info.me.profile_pic);
+      }
+    });
+  
 });
-
+//add profile photo
+myApp.onPageInit('add-profile-photo',function(page){
+  var myAccount = common.getLocal('account');
+  $$(".btn-camera").on("click",function(){
+    common.setLocal("current_profile_id",myAccount.id);
+    profile_photo.take_photo_from_camera(myAccount.id,myApp,mainView)
+    .then(function(){
+      console.log('success photo');
+    }).catch(function(err){
+      console.log('photo failed ',err.message);
+    });
+  
+  });
+  $$(".btn-gallery").on("click",function(){
+    common.setLocal("current_profile_id",myAccount.id);
+    profile_photo.take_photo_from_gallery(myAccount.id,myApp,mainView)
+    .then(function(){
+      console.log('success photo');
+    }).catch(function(err){
+      console.log('photo failed ',err.message);
+    });
+  
+  });
+  
+});
+//when we fail to upload the profile photo.
+myApp.onPageInit("upload-profile-photo-failed",function(page){
+  
+ 
+    setTimeout(function(){
+        mainView.router.loadPage("account.html");
+    },3000); 
+  
+  
+});
 //UPDATE ACCOUNT
 myApp.onPageInit('update-account',function(page){
   common.currentPageUrl = page.url;
@@ -298,8 +348,14 @@ myApp.onPageInit("new-promo",function(page){
   common.currentPageUrl = page.url;
   myApp.alert('Waktu Promo tidak boleh lebih dari 12 jam','');
   hotel.list(function(response){
+    
+    var html = tplHotelDropdownList({hotels:response.hotel});
+    $$("select[name=hotel_id]").html(html);
+    
     var pickerValues = [];
     var pickerDisplayValues = [];
+
+
     for(var i in response.hotel){
       pickerValues.push(response.hotel[i].id);
       pickerDisplayValues.push(response.hotel[i].name);
@@ -1114,11 +1170,50 @@ myApp.onPageInit('bids-current',function(page){
           has_bids:has_bids
         });
         $$(".currentbid-list").html(html);
+        $$(".btn-cancel-bid").click(function(){
+          var bid_id = $$(this).attr('data-id');
+          myApp.confirm('Your bid is about to canceled, are you sure ?',
+                'Confirm', 
+                function () {
+                  console.log("bid_id",bid_id);
+                  if(typeof bid_id !== 'undefined'){
+                    setTimeout(function(){
+                      mainView.router.loadPage('bid_cancel.html?id='+bid_id);
+                    },1000);                    
+                  }
+                  
+                },
+                function () {
+                 //do nothing
+                }
+                
+              );
+        });
     }).catch(function(err){
        setTimeout(function(){
           mainView.router.loadPage("bids.html");
         },2000);
     });  
   
+});
+myApp.onPageInit('bid-cancel',function(page){
+  bidding.cancel(page.query.id)
+  .then(function(success){
+    if(success){
+      setTimeout(function(){
+        mainView.router.loadPage("bid_cancel_success.html");
+      },1000);
+      
+    }else{
+      setTimeout(function(){
+        mainView.router.loadPage("bid_cancel_failed.html");
+      },1000);
+    }
+  })
+  .catch(function(){
+    setTimeout(function(){
+        mainView.router.loadPage("bid_cancel_failed.html");
+      },1000);
+  });
 });
 //-Biddings
